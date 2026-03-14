@@ -44,6 +44,7 @@ COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
 COPY --from=builder /app/prisma ./prisma
+COPY --from=builder /app/package.json ./package.json
 
 # Copy full node_modules from deps for prisma CLI at runtime
 COPY --from=deps /app/node_modules ./node_modules
@@ -51,7 +52,7 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY --from=builder /app/start.sh ./start.sh
 
 RUN chmod +x start.sh
-RUN mkdir -p .next && chown -R nextjs:nodejs .next
+RUN mkdir -p .next && chown -R nextjs:nodejs .next /app/prisma
 
 USER nextjs
 
