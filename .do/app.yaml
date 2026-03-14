@@ -1,0 +1,40 @@
+name: ai-supply-chain-agent
+region: nyc
+services:
+  - name: supply-chain-web
+    dockerfile_path: Dockerfile
+    github:
+      repo: Linos-spec/ai-supply-chain-agent
+      branch: main
+      deploy_on_push: true
+    http_port: 8080
+    instance_count: 1
+    instance_size_slug: basic-xxs
+    routes:
+      - path: /
+    envs:
+      - key: DATABASE_URL
+        scope: RUN_TIME
+        value: "${db-supply-chain.DATABASE_URL}"
+      - key: NEXTAUTH_URL
+        scope: RUN_TIME
+        value: "https://${APP_URL}"
+      - key: NEXTAUTH_SECRET
+        scope: RUN_TIME
+        type: SECRET
+        value: "supply-chain-agent-secret-key-change-me"
+      - key: AUTH_SECRET
+        scope: RUN_TIME
+        type: SECRET
+        value: "supply-chain-agent-secret-key-change-me"
+      - key: ANTHROPIC_API_KEY
+        scope: RUN_TIME
+        type: SECRET
+        value: "your-anthropic-api-key"
+      - key: NODE_ENV
+        scope: RUN_AND_BUILD_TIME
+        value: "production"
+databases:
+  - name: db-supply-chain
+    engine: PG
+    production: false
