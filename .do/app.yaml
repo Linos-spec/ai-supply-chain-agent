@@ -15,7 +15,8 @@ services:
     envs:
       - key: DATABASE_URL
         scope: RUN_TIME
-        value: "${db-supply-chain.DATABASE_URL}"
+        type: SECRET
+        value: "SET_VIA_DOCTL"
       - key: NEXTAUTH_URL
         scope: RUN_TIME
         value: "https://${APP_URL}"
@@ -34,7 +35,3 @@ services:
       - key: NODE_ENV
         scope: RUN_AND_BUILD_TIME
         value: "production"
-databases:
-  - name: db-supply-chain
-    engine: PG
-    production: false
