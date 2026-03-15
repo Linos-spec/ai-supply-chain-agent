@@ -19,7 +19,13 @@ services:
         value: "SET_VIA_DOCTL"
       - key: NEXTAUTH_URL
         scope: RUN_TIME
-        value: "https://${APP_URL}"
+        value: "https://ai-supply-chain-agent-wslhw.ondigitalocean.app"
+      - key: AUTH_URL
+        scope: RUN_TIME
+        value: "https://ai-supply-chain-agent-wslhw.ondigitalocean.app"
+      - key: AUTH_TRUST_HOST
+        scope: RUN_TIME
+        value: "true"
       - key: NEXTAUTH_SECRET
         scope: RUN_TIME
         type: SECRET
