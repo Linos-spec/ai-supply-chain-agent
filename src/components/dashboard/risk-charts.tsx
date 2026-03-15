@@ -175,13 +175,16 @@ export function RiskDistributionChart({ data }: { data: RiskDistribution[] }) {
               ))}
             </Pie>
             <Tooltip
-              formatter={(value: number, name: string) => [`${value} risks (${total > 0 ? ((value/total)*100).toFixed(0) : 0}%)`, name]}
+              formatter={(value, name) => {
+                const v = Number(value) || 0;
+                return [`${v} risks (${total > 0 ? ((v/total)*100).toFixed(0) : 0}%)`, name];
+              }}
             />
             <Legend
               verticalAlign="bottom"
               iconType="circle"
               iconSize={8}
-              formatter={(value: string) => <span className="text-xs text-gray-600">{value}</span>}
+              formatter={(value) => <span className="text-xs text-gray-600">{String(value)}</span>}
             />
           </PieChart>
         </ResponsiveContainer>
