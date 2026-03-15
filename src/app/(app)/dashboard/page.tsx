@@ -84,14 +84,16 @@ export default function DashboardPage() {
           </Button>
         </div>
 
-        <KPICards data={data.kpis} />
+        <div className="relative z-10">
+          <KPICards data={data.kpis} />
+        </div>
 
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+        <div className="relative z-0 grid grid-cols-1 gap-6 lg:grid-cols-2">
           <StockoutByLocationChart data={data.stockoutByLocation} />
           <ExcessByLocationChart data={data.excessByLocation} />
         </div>
 
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+        <div className="relative z-0 grid grid-cols-1 gap-6 lg:grid-cols-3">
           <div className="lg:col-span-2">
             <RecentRisksTable risks={data.recentRisks} />
           </div>

@@ -1,11 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { Header } from "@/components/layout/header";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
-import { Search, MapPin, Clock, AlertTriangle, CheckCircle2, ShieldAlert, Truck, Package2 } from "lucide-react";
+import { Search, MapPin, Clock, AlertTriangle, CheckCircle2, ShieldAlert, Truck, Package2, ChevronRight } from "lucide-react";
 
 interface Supplier {
   id: string;
@@ -52,6 +53,7 @@ function ReliabilityRing({ score }: { score: number }) {
 }
 
 export default function SuppliersPage() {
+  const router = useRouter();
   const [suppliers, setSuppliers] = useState<Supplier[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
@@ -149,7 +151,11 @@ export default function SuppliersPage() {
         ) : (
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
             {filtered.map((supplier) => (
-              <Card key={supplier.id} className="group overflow-hidden transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5">
+              <Card
+                key={supplier.id}
+                className="group cursor-pointer overflow-hidden transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5"
+                onClick={() => router.push(`/suppliers/${supplier.id}`)}
+              >
                 {/* Top accent bar */}
                 <div className={`h-1 w-full ${
                   supplier.riskLevel === "CRITICAL" ? "bg-gradient-to-r from-red-500 to-rose-500" :
@@ -187,6 +193,12 @@ export default function SuppliersPage() {
                         {supplier._count.risks} risk{supplier._count.risks !== 1 ? "s" : ""}
                       </span>
                     </div>
+                  </div>
+
+                  {/* Drill-through hint */}
+                  <div className="mt-3 flex items-center justify-end text-xs text-gray-400 opacity-0 transition-opacity group-hover:opacity-100">
+                    <span>View details</span>
+                    <ChevronRight className="h-3 w-3" />
                   </div>
                 </CardContent>
               </Card>

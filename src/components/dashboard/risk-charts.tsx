@@ -152,47 +152,49 @@ export function RiskDistributionChart({ data }: { data: RiskDistribution[] }) {
       <CardHeader className="pb-2">
         <CardTitle className="text-base">Risk Distribution</CardTitle>
       </CardHeader>
-      <CardContent>
-        <ResponsiveContainer width="100%" height={280}>
-          <PieChart>
-            <Pie
-              data={data}
-              cx="50%"
-              cy="45%"
-              innerRadius={55}
-              outerRadius={90}
-              paddingAngle={4}
-              dataKey="value"
-              strokeWidth={2}
-              stroke="#fff"
-            >
-              {data.map((_, index) => (
-                <Cell
-                  key={`cell-${index}`}
-                  fill={PIE_COLORS[index % PIE_COLORS.length]}
-                  className="transition-all duration-200 hover:opacity-80"
-                />
-              ))}
-            </Pie>
-            <Tooltip
-              formatter={(value, name) => {
-                const v = Number(value) || 0;
-                return [`${v} risks (${total > 0 ? ((v/total)*100).toFixed(0) : 0}%)`, name];
-              }}
-            />
-            <Legend
-              verticalAlign="bottom"
-              iconType="circle"
-              iconSize={8}
-              formatter={(value) => <span className="text-xs text-gray-600">{String(value)}</span>}
-            />
-          </PieChart>
-        </ResponsiveContainer>
-        {/* Center label */}
-        <div className="pointer-events-none absolute inset-0 flex items-center justify-center" style={{ marginTop: "-30px" }}>
-          <div className="text-center">
-            <p className="text-2xl font-bold text-gray-900 dark:text-white">{total}</p>
-            <p className="text-xs text-gray-500">Total</p>
+      <CardContent className="relative">
+        <div className="relative" style={{ height: 280 }}>
+          <ResponsiveContainer width="100%" height={280}>
+            <PieChart>
+              <Pie
+                data={data}
+                cx="50%"
+                cy="45%"
+                innerRadius={55}
+                outerRadius={90}
+                paddingAngle={4}
+                dataKey="value"
+                strokeWidth={2}
+                stroke="#fff"
+              >
+                {data.map((_, index) => (
+                  <Cell
+                    key={`cell-${index}`}
+                    fill={PIE_COLORS[index % PIE_COLORS.length]}
+                    className="transition-all duration-200 hover:opacity-80"
+                  />
+                ))}
+              </Pie>
+              <Tooltip
+                formatter={(value, name) => {
+                  const v = Number(value) || 0;
+                  return [`${v} risks (${total > 0 ? ((v/total)*100).toFixed(0) : 0}%)`, name];
+                }}
+              />
+              <Legend
+                verticalAlign="bottom"
+                iconType="circle"
+                iconSize={8}
+                formatter={(value) => <span className="text-xs text-gray-600">{String(value)}</span>}
+              />
+            </PieChart>
+          </ResponsiveContainer>
+          {/* Center label — positioned relative to chart container */}
+          <div className="pointer-events-none absolute inset-0 flex items-center justify-center" style={{ marginBottom: 40 }}>
+            <div className="text-center">
+              <p className="text-2xl font-bold text-gray-900 dark:text-white">{total}</p>
+              <p className="text-xs text-gray-500">Total</p>
+            </div>
           </div>
         </div>
       </CardContent>
