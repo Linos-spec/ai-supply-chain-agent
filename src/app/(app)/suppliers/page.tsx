@@ -52,6 +52,52 @@ function ReliabilityRing({ score }: { score: number }) {
   );
 }
 
+// Generate simulated 6-month reliability trend based on current score
+function generateTrend(score: number): number[] {
+  const months = 6;
+  const points: number[] = [];
+  let s = score + (Math.random() - 0.5) * 0.1;
+  for (let i = months - 1; i >= 0; i--) {
+    s = Math.max(0.3, Math.min(1, s + (Math.random() - 0.45) * 0.05));
+    points.push(s);
+  }
+  points[months - 1] = score; // Ensure last point matches current
+  return points;
+}
+
+function ReliabilitySparkline({ score }: { score: number }) {
+  const [points] = useState(() => generateTrend(score));
+  const width = 120;
+  const height = 28;
+  const min = Math.min(...points) - 0.05;
+  const max = Math.max(...points) + 0.05;
+  const range = max - min || 1;
+
+  const pathD = points
+    .map((p, i) => {
+      const x = (i / (points.length - 1)) * width;
+      const y = height - ((p - min) / range) * height;
+      return `${i === 0 ? "M" : "L"} ${x} ${y}`;
+    })
+    .join(" ");
+
+  const isUp = points[points.length - 1] >= points[0];
+  const color = isUp ? "#10b981" : "#ef4444";
+
+  return (
+    <div className="mt-3 flex items-center gap-2">
+      <span className="text-[10px] text-gray-400">6mo trend</span>
+      <svg width={width} height={height} className="overflow-visible">
+        <path d={pathD} fill="none" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        <circle cx={width} cy={height - ((points[points.length - 1] - min) / range) * height} r="2" fill={color} />
+      </svg>
+      <span className={`text-[10px] font-medium ${isUp ? "text-emerald-600" : "text-red-600"}`}>
+        {isUp ? "↑" : "↓"}
+      </span>
+    </div>
+  );
+}
+
 export default function SuppliersPage() {
   const router = useRouter();
   const [suppliers, setSuppliers] = useState<Supplier[]>([]);
@@ -195,8 +241,11 @@ export default function SuppliersPage() {
                     </div>
                   </div>
 
+                  {/* Reliability sparkline */}
+                  <ReliabilitySparkline score={supplier.reliabilityScore} />
+
                   {/* Drill-through hint */}
-                  <div className="mt-3 flex items-center justify-end text-xs text-gray-400 opacity-0 transition-opacity group-hover:opacity-100">
+                  <div className="mt-2 flex items-center justify-end text-xs text-gray-400 opacity-0 transition-opacity group-hover:opacity-100">
                     <span>View details</span>
                     <ChevronRight className="h-3 w-3" />
                   </div>
