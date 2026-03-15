@@ -3,7 +3,8 @@
 import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { Brain, Loader2, Shield, Clipboard, Eye, Zap, BarChart3, Bell } from "lucide-react";
+import { Loader2, Shield, Clipboard, Eye, Zap, BarChart3, Bell } from "lucide-react";
+import { LogoIcon } from "@/components/ui/logo";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -76,7 +77,7 @@ export default function LoginPage() {
         {/* Branding */}
         <div className="text-center">
           <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-600 shadow-lg shadow-blue-500/25">
-            <Brain className="h-9 w-9 text-white" />
+            <LogoIcon size={38} className="text-white" />
           </div>
           <h1 className="mt-5 text-3xl font-bold tracking-tight text-gray-900 dark:text-white">
             AI Supply Chain Agent

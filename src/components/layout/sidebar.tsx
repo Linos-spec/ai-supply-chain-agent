@@ -10,10 +10,10 @@ import {
   Upload,
   Settings,
   LogOut,
-  Brain,
   ChevronRight,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { LogoIcon } from "@/components/ui/logo";
 
 const navigation = [
   { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
@@ -32,7 +32,7 @@ export function Sidebar() {
       {/* Logo */}
       <div className="flex h-16 items-center gap-3 border-b border-gray-200/80 px-6 dark:border-gray-800">
         <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-blue-600 to-indigo-600 shadow-sm">
-          <Brain className="h-5 w-5 text-white" />
+          <LogoIcon size={22} className="text-white" />
         </div>
         <div>
           <h1 className="text-base font-bold text-gray-900 dark:text-white">
